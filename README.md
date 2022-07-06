@@ -19,3 +19,10 @@ chmod +x build-images.sh
 build-images.bat
 ```
 - when prompted to start the Spark cluster, go to the `spark-cluster` directory and run `docker-compose up --scale spark-worker=3` to spin up the Spark containers with 3 worker nodes
+
+
+### Course Progress
+
+- Video setup environment course
+  - tip for spark cluster compose: `docker-compose up --scale spark-worker=3 -d`
+  - tip for postgres: `docker-compose up -d`
