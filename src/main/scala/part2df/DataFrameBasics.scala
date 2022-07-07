@@ -4,6 +4,7 @@ import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types.{DoubleType, LongType, StringType, StructField, StructType}
 
 object DataFrameBasics extends App {
+  val src = "src/main/resources/data"
   // creating a SparkSession
   val spark = SparkSession.builder()
     .appName("DataFrame Basics")
@@ -14,7 +15,7 @@ object DataFrameBasics extends App {
   val firstDf = spark.read
     .format("json")
     .option("inferSchema", "true") // in production not be useful
-    .load("src/main/resources/data/cars.json")
+    .load(s"$src/cars.json")
 
   firstDf.show()
   firstDf.printSchema()
@@ -43,7 +44,7 @@ object DataFrameBasics extends App {
   val carsDFWithSchema = spark.read
     .format("json")
     .schema(carsDFSchema)
-    .load("src/main/resources/data/cars.json")
+    .load(s"$src/cars.json")
 
   val myRow = ("chevrolet chevelle malibu", 18, 8, 307, 130, 3504, 12.0, "1970-01-01", "USA")
   // create Df from tuples
@@ -71,4 +72,39 @@ object DataFrameBasics extends App {
 
   manualCarsDF.printSchema()
   manualCarsDFWithImplicits.printSchema()
+
+  /*
+  * Exercise:
+  * 1. Create a manual DF describing smartphones
+  *  - make
+  *  - model
+  *  - screen dimension
+  *  - camera mega pixels
+  *
+  * 2. Read another file from the data folder
+  *   - movies.json
+  *   - print its schema
+  *   - count the number of rows, call count()
+  * */
+
+
+  // 1
+  val smartphones = Seq(
+    ("Iphone", "iphone pro Max", 1200, 307),
+    ("Iphone", "iphone pro 13", 900, 307),
+    ("Iphone", "iphone pro 10", 800, 307)
+  )
+
+  //  import spark.implicits._
+  val dfSmartphone = smartphones.toDF("Make", "Model", "Screen_Dimension", "Camera_Mega_Pixel")
+  dfSmartphone.show()
+
+  // 2
+  val moviesDF = spark.read
+    .format("json")
+    .option("inferSchema", "true")
+    .load(s"$src/movies.json")
+
+  moviesDF.printSchema()
+  println(moviesDF.count())
 }
