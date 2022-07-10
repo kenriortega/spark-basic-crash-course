@@ -1,5 +1,6 @@
 package part3typesdatasets
 
+import org.apache.spark.sql.functions.{avg, col}
 import org.apache.spark.sql.{Dataset, Encoders, SparkSession}
 
 import java.util.Date
@@ -72,4 +73,6 @@ object DataSets extends App {
   //3
   println(carsDS.map(_.Horsepower.getOrElse(0L)).reduce(_ + _) / carsCount)
 
+  //4 also use the DF function
+  carsDS.select(avg(col("Horsepower"))).show
 }
