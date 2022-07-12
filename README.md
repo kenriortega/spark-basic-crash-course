@@ -26,3 +26,4 @@ build-images.bat
 - Video setup environment course
   - tip for spark cluster compose: `docker-compose up --scale spark-worker=3 -d`
   - tip for postgres: `docker-compose up -d`
+  - tips for get access to master node  docker exec -it spark-cluster_spark-master_1 bash
